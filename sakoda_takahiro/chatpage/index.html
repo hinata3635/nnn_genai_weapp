@@ -1,0 +1,23 @@
+<!--Import Google Icon Font-->
+<link href= "css/bmesse.css" rel= "stylesheet">
+
+	<div id= "chatbot">
+    
+		<div id= "chatbot-header">
+			<div id= "chatbot-logo">AI Chatbot</div>
+			<i id= "chatbot-zoom-icon" class="material-icons waves-effect waves-light" onclick= "chatbotZoom()">fullscreen</i>
+		</div>
+    
+		<div id= "chatbot-body">
+			<ul id= "chatbot-ul"></ul>
+		</div>
+    
+		<!--入力場所，送信ボタン-->
+		<form onsubmit= "return false">
+			<div id= "chatbot-footer">
+				<input type= "text" id= "chatbot-text" class= "browser-default" placeholder= "テキストを入力">
+				<input type= "submit" value= "送信" id= "chatbot-submit">
+			</div>
+		</form>
+    
+	</div>
