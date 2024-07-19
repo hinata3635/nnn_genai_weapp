@@ -16,7 +16,7 @@ css{
 }
 body { 
     box-sizing: border-box;
-    background: #FFF;
+    background: #ffffff;
     font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN, Arial, "メイリオ", Meiryo, sans-serif;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     tap-highlight-color: rgba(0, 0, 0, 0);
@@ -59,8 +59,8 @@ a {
 }
 @media screen and (min-width: 700px) { /*PC*/
     #chatbot {
-        height: 80vh;
-        width: 350px;
+        height: 100vh;
+        width: 100vw;
         bottom: 0;
         right: 0;
         margin: 0;
@@ -81,7 +81,7 @@ a {
 }
 #chatbot-header {
     height: 60px;
-    background: #335C80;
+    background: #a8a095;
     position: relative;
     display: flex;
     justify-content:space-between;
@@ -101,7 +101,7 @@ a {
     cursor: pointer;
 }
 #chatbot-zoom-icon:active {
-    background: #4D7999;
+    background: #99584d;
 }
 @media screen and (max-width: 700px) { /*スマホ*/
   #chatbot-zoom-icon {
@@ -113,7 +113,7 @@ a {
 #chatbot-body {
     width: 100%;
     height: calc(80vh - 110px);
-    padding-top: 10px;
+    padding-top: 1 0px;
     background: #FFF;
     box-sizing: border-box;
     /*横向きのスクロール禁止*/
@@ -225,9 +225,9 @@ a {
 /*相手の吹き出しのデザイン*/
 .chatbot-left{
     margin-left: 20px;
-    background: #E6F0F7;
+    background: #ffa24a;
     border-radius: 0 9px 9px 9px;
-    color: #1A5F80;
+    color: #ffffff;
 }
 .chatbot-left-rounded {
     margin-left: 20px;

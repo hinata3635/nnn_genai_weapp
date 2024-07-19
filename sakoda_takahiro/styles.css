@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Replicated Design</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ChatGPT 4.0</h1>
+        </header>
+        <main>
+            <div class="logo">
+                <img src="logo.png" alt="Logo">
+            </div>
+            <div class="cards">
+                <div class="card">
+                    <span class="icon">💡</span>
+                    <p>キッチンにある材料を使ったレシピ</p>
+                </div>
+                <div class="card">
+                    <span class="icon">✏️</span>
+                    <p>友人を結婚式に招待するテキスト</p>
+                </div>
+                <div class="card">
+                    <span class="icon">📷</span>
+                    <p>カメラ映えする洋服の選び方</p>
+                </div>
+                <div class="card">
+                    <span class="icon">📧</span>
+                    <p>日次のメール報告のための Python スクリプト</p>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
