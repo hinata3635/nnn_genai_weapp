@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>NNNchatbot</title>
+		<link href= "css/bmesse.css" rel= "stylesheet">
+	</head>
+	<body>
+		<div class="chat-list" id="chatList">
+			<!-- チャットリストがここに表示されます -->
+		</div>
+		<button id="newChatButton">新しいチャット</button>
+		<div class="chat-container"><div id= "chatbot">
+    
+			<div id= "chatbot-header">
+				<div id= "chatbot-logo">RuleMate</div>
+			</div>
+		
+			<div id= "chatbot-body">
+				<ul id= "chatbot-ul"></ul>
+			</div>
+		
+			<!--入力場所，送信ボタン-->
+			<form onsubmit= "return false">
+				<div id= "chatbot-footer">
+					<input type= "text" id= "chatbot-text" class= "browser-default" placeholder= "テキストを入力">
+					<input type= "submit" value= "送信" id= "chatbot-submit">
+				</div>
+			</form>
+			<script src="script.js"></script>
+		</body>
+		
+		
+		</div>	
+		</html></div>
+		
