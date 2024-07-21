@@ -42,7 +42,7 @@
 			// ロボットからの投稿一覧のオブジェクト
 			// textには投稿文，continueは次も連続で投稿するかどうか，optionは普通の投稿or選択肢orランダム投稿など
 			const chatList = {
-				1: {text: 'ようこそ「AI chatbot」へ！', continue: true, option: 'normal'},
+				1: {text: 'ようこそ「Nexus」へ！', continue: true, option: 'normal'},
 				2: {text: '会話内容は管理者へ送信されませんので、ご安心ください。', continue: true, option: 'normal'},
 				3: {text: {title: 'Q1', question: '何を知りたいですか？', choices: ['開発者について', '参考にしたチャットボット', 'Flutter デモアプリ', '島根県美郷町 HP']}, continue: false, option: 'choices', questionNextSupport: true}, // questionNextSupportは次に質問に対する詳細を投稿するかどうか
 				// userCount1：ユーザーが思う世界一高い山

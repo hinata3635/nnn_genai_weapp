@@ -49,8 +49,8 @@ a {
 body {
     font-family: Arial, sans-serif;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-end;
+    align-items: flex-end;
     height: 100vh;
     margin: 0;
 }
@@ -58,25 +58,24 @@ body {
 
 
 .chat-list {
-    width: 170px;
+    width: 200px;
     border: 1px solid #ccc;
-    overflow-y: auto;
-    
-    margin: 0 0 0 auto;
+    margin: 60px 0 auto auto;
+    padding: 10px 20px;
 }
 
 .chat-window {
     width: 30%;
     padding: 10px;
     overflow-y: auto;
-    margin: 0 0 0 auto;
+    margin:auto;
 
 }
 
 #newChatButton {
     position: absolute;
-    bottom: 20px;
-    right: 20px;
+    top: 10px;
+    right: 90px;
     padding: 10px 20px;
     font-size: 16px;
 }
@@ -94,33 +93,28 @@ body {
     -webkit-transform: translate(0);
     -moz-transform: translate(0);
 }
-@media screen and (min-width: 700px) { /*PC*/
-    #chatbot {
+
+#chatbot {
         height: 100vh;
         width: 80vw;
-        bottom: 0;
-        right: 0;
-        margin: 0;
+        margin-right: 280px;
         border-radius: 0px;
         border: 1px solid #ccc;
         top: 50%;
         left: 50%;
         transform: translate(-63%, -50%);
-        -moz-transform: translate(-100%, -50%);
+        -moz-transform: translate(-50%, -50%);
     }
-}
-@media screen and (max-width: 700px) { /*スマホ*/
-    #chatbot {
-        height: 80vh;
-        width: 100vw;
-    }
-}
+
+
+
 #chatbot-header {
     height: 60px;
     background: #ffa24a;
     position: relative;
     display: flex; 
     justify-content:space-between;
+    margin-bottom: 5px;
 }
 #chatbot-logo {
     color: #ffffff;
@@ -139,15 +133,15 @@ body {
 #chatbot-zoom-icon:active {
     background: #99584d;
 }
-@media screen and (max-width: 700px) { /*スマホ*/
+
   #chatbot-zoom-icon {
     display: none;
   }
-}
+
 
 /*チャットのフィールド*/
 #chatbot-body {
-    width: 80%;
+    width: 100%;
     height: calc(100vh - 130px);
     padding-top: 1 0px;
     background: #FFF;
@@ -199,7 +193,7 @@ body {
 /*入力する場所*/
 #chatbot-text {
     height: 40px;
-    width: 72%;
+    width: 100%;
     display: block;
     font-size: 16px;
     box-sizing: border-box;
