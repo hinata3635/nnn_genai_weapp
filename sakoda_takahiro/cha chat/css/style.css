@@ -22,6 +22,12 @@ h1 {
     width: 45px;
     right: 30px;
     top: 7.5px;
+}   
+.icon2{
+        position: fixed;
+        width: 45px;
+        right: 320px;
+        top: 6px;
 }
 #whole content{
     display: flex;
@@ -55,7 +61,7 @@ h1 {
 
 #newChatButton {
     position: absolute;
-    top: 7px;
+    top: 8px;
     right: 100px;
     padding: 10px 20px;
     font-size: 16px;
@@ -68,17 +74,16 @@ h1 {
 #chatbot {
     margin-left: 40px;
     margin-top: 20px;
-    height: calc(100vh - 90px);
+    height: calc(100vh - 110px);
     width: calc(100vw - 360px);
     border: 3px solid #ffb171;
     border-radius: 10px;
-    margin-bottom: 10px;
 }
 
 
 #chatbot-body {
     width: 100%;
-    height: calc(100vh - 130px);
+    height: calc(100vh - 140px);
     padding-top: 1 0px;
     background: #FFF;
     box-sizing: border-box;
@@ -89,6 +94,7 @@ h1 {
     -webkit-overflow-scrolling: touch;
     /*IE、Edgeでスクロールバーを非表示にする*/
     -ms-overflow-style: none;
+    border-radius: 10px;
 }
 #chatbot-body::-webkit-scrollbar {
     display:none;
