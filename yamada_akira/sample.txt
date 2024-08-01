@@ -2,5 +2,6 @@ flaskのインストール
 pip install flask 
 
 データベース操作のためのflask_sqlalchemyのインストール
-pip install flask_sqlalchemy
+pip install Flask-SQLAlchemy
+
 
