@@ -23,6 +23,8 @@ def index():
 
 @app.route('/add', methods=['POST'])
 def add():
+	# id = request.form['chatbot-text']
+	# password = request.form['chatbot-text2']
 	id = request.form['id']
 	password = request.form['password']
 	new_login = Login(id=id,password=password)
@@ -32,14 +34,13 @@ def add():
 
 @app.route('/search', methods=['GET'])
 def search():
-	id_input = request.args.get('id_search')
-	password_input = request.args.get('password_search')
-	if id_input is None or len(id_input) == 0:
-+         data = Login.query.all()
-+     else:
-+         data = db.session.query(Login).filter(Login.id.like(id_input)).all()
-    return render_template('login.html', data=data)
-
+	id_input = request.args.get('searchId')
+	password_input = request.args.get('searchPassword')
+# 	if id_input is None or len(id_input) == 0:
+# +         data = Login.query.all()
+# +   else:
+# +         data = db.session.query(Login).filter(Login.id.like(id_input)).all()
+#     return render_template('login.html', data=data)
 
 if __name__ == '__main__':
 	app.run()

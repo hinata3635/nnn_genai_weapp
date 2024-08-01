@@ -16,5 +16,10 @@
 			<p>{{d.id}} : {{d.password}}</p>
 		{% endfor %}
 		<!---------->
+		<form action="/search" method="GET">
+			<input type="text" name="searchId" placeholder="id"/>
+			<input type="text" name="searchPassword" placeholder="password"/>
+			<input type="submit" value="Search"/>
+		</form>
 	</body>
 </html>

@@ -1,0 +1,83 @@
+body { 
+    background: #FFF;
+    font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN, Arial, "メイリオ", Meiryo, sans-serif;
+    overflow-x: hidden;
+    margin: 0;
+}
+
+
+header {
+    height: 60px;
+    display: flex; 
+    background: #ffa24a;
+    align-items: center;
+}
+h1 {
+    margin: 0;
+    text-align: left;
+    margin-left: 10px;
+}
+#chatbot-text {
+    height: 40px;
+    width: 100%;
+    display: block;
+    font-size: 16px;
+    box-sizing: border-box;
+    padding-left: 10px;
+    margin: auto 15px auto 15px;
+    color: #ffffff;
+    border: 0;
+    outline: 0;
+    background: #ffffff;
+}
+#chatbot-text {
+    margin: 0;
+    height: 50px;
+    width: 690px;
+    position: absolute;
+    display: block;
+    top: 450px;
+    left: 30.89%;
+    font-size: 16px;
+    box-sizing: border-box;
+    padding-left: 10px;
+    border:1px solid #7e7e7e ;
+    border-radius: 5px;
+   
+}
+#chatbot-text2 {
+    margin: 0;
+    height: 50px;
+    width: 690px;
+    position: absolute;
+    display: block;
+    top: 530px;
+    left: 30.89%;
+    font-size: 16px;
+    box-sizing: border-box;
+    padding-left: 10px;
+    border:1px solid #7e7e7e ;
+    border-radius: 5px;
+}
+#chatbot-submit{
+    position: absolute;
+    cursor: pointer;
+    height: 40px;
+    width: 100px;
+    padding: 0 auto;
+    top: 620px;
+    left: 45%;
+    margin-right: 15px; 
+    font-size: 16px;
+    background: #ffa24a;
+    color: white;
+    display: block;
+    /*デフォルトのボーダーを消す*/
+    border: none;
+    box-sizing: border-box;
+    border-radius: 7px;
+}
+#chatbot-submit:active{
+    outline: 0;
+    background: #e78301;
+}
