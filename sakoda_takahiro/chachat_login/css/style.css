@@ -19,7 +19,7 @@ h1 {
 }
 
 
-#chatbot-text {
+#mailAdress {
     margin: 0;
     height: 50px;
     width: 690px;
@@ -34,7 +34,7 @@ h1 {
     border-radius: 5px;
    
 }
-#chatbot-text2 {
+#password {
     margin: 0;
     height: 50px;
     width: 690px;
@@ -48,6 +48,9 @@ h1 {
     border:1px solid #7e7e7e ;
     border-radius: 5px;
 }
+
+
+
 #chatbot-submit{
     position: absolute;
     cursor: pointer;
