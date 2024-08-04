@@ -1,4 +1,4 @@
-body { 
+body {
     background: #FFF;
     font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN, Arial, "メイリオ", Meiryo, sans-serif;
     overflow-x: hidden;
@@ -8,7 +8,7 @@ body {
 
 header {
     height: 60px;
-    display: flex; 
+    display: flex;
     background: #ffa24a;
     align-items: center;
 }
@@ -32,7 +32,7 @@ h1 {
     padding-left: 10px;
     border:1px solid #7e7e7e ;
     border-radius: 5px;
-   
+
 }
 #password {
     margin: 0;
@@ -59,7 +59,7 @@ h1 {
     padding: 0 auto;
     top: 620px;
     left: 45%;
-    margin-right: 15px; 
+    margin-right: 15px;
     font-size: 16px;
     background: #ffa24a;
     color: white;
