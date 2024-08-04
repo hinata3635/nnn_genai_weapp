@@ -4,8 +4,6 @@ body {
     overflow-x: hidden;
     margin: 0;
 }
-
-
 header {
     height: 60px;
     display: flex;
@@ -33,11 +31,9 @@ h1 {
     display: flex;
     overflow-y: hidden;
 }
-
 .chat-list::-webkit-scrollbar {
     display:none;
 }
-
 .chat-list {
     width: calc(259px);
     height: calc(100vh - 60px);
@@ -46,7 +42,6 @@ h1 {
     top: 60px;
     right: 0px;
     padding: 0 20px;
-
 }
 .chat-item {
     padding-top: 10px;
@@ -56,9 +51,6 @@ h1 {
     border: 1px solid #ccc; /* ボーダーを追加 */
     border-radius: 5px; /* ボーダーの角を丸くする */
 }
-
-
-
 #newChatButton {
     position: absolute;
     top: 8px;
@@ -70,7 +62,6 @@ h1 {
     border-radius: 7px;
     height: 46px;
 }
-
 #chatbot {
     margin-left: 40px;
     margin-top: 20px;
@@ -79,8 +70,6 @@ h1 {
     border: 3px solid #ffb171;
     border-radius: 10px;
 }
-
-
 #chatbot-body {
     width: 100%;
     height: calc(100vh - 140px);
@@ -111,7 +100,6 @@ h1 {
     margin:  0 auto ;
     border-radius: 10px;
     bottom: 30px
-
 }
 /*入力する場所*/
 #chatbot-text {
@@ -170,7 +158,6 @@ h1 {
     line-height: 1.3em;
     position: relative;
 }
-
 #chatbot-ul > li > div.chatbot-short {
     width: 53%;
 }

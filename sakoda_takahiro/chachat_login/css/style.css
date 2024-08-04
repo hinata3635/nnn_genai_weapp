@@ -5,7 +5,6 @@ body {
     margin: 0;
 }
 
-
 header {
     height: 60px;
     display: flex;
@@ -17,7 +16,6 @@ h1 {
     text-align: left;
     margin-left: 10px;
 }
-
 
 #mailAdress {
     margin: 0;
@@ -48,8 +46,6 @@ h1 {
     border:1px solid #7e7e7e ;
     border-radius: 5px;
 }
-
-
 
 #chatbot-submit{
     position: absolute;
