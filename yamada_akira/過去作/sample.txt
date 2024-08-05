@@ -4,4 +4,7 @@ pip install flask
 データベース操作のためのflask_sqlalchemyのインストール
 pip install Flask-SQLAlchemy
 
+SQliteの導入が必要
+インストールと環境変数
+
 
