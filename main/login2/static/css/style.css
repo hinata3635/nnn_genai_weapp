@@ -1,0 +1,89 @@
+コードをコピーする
+body { 
+    background: #FFF;
+    font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN, Arial, "メイリオ", Meiryo, sans-serif;
+    overflow-x: hidden;
+    margin: 0;
+}
+
+header {
+    height: 60px;
+    display: flex; 
+    background: #ffa24a;
+    align-items: center;
+}
+
+h1 {
+    margin: 0;
+    text-align: left;
+    margin-left: 10px;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    position: absolute;
+    top: -20px;
+    left: 15px;
+    background: #FFF;
+    padding: 0 5px;
+    font-size: 16px;
+    color: #7e7e7e;
+}
+
+#chatbot-text, #chatbot-text2 {
+    height: 50px;
+    width: 100%;
+    display: block;
+    font-size: 16px;
+    box-sizing: border-box;
+    padding-left: 10px;
+    margin: 0 0 20px 0;
+    border: 1px solid #7e7e7e;
+    border-radius: 5px;
+}
+
+#chatbot-submit {
+    cursor: pointer;
+    height: 40px;
+    width: 100px;
+    font-size: 16px;
+    background: #ffa24a;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    display: inline-block;
+}
+
+#chatbot-submit:active {
+    outline: 0;
+    background: #e78301;
+}
+
+#register-button {
+    cursor: pointer;
+    height: 40px;
+    width: 100px;
+    font-size: 16px;
+    background: #ffa24a;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    display: inline-block;
+}
+
+#register-button:active {
+    outline: 0;
+    background: #e78301;
+}
+
+.alert-dismissible .close {
+    position: absolute;
+    top: 0;
+    right: 15px;
+    padding: 1rem 1rem;
+    color: inherit;
+}
