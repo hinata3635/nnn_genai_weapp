@@ -140,7 +140,6 @@ class User(UserMixin, db.Model):
         existing_user = cls.query.filter_by(username=username).first()
         if existing_user is not None:
             return None
-        
         new_user = cls(username=username)
         new_user.set_password(password)
         db.session.add(new_user)

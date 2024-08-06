@@ -2,21 +2,29 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>ユーザー登録 - NNNchatbot</title>
+    <title>NNNchatbot - ユーザー登録</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
 </head>
 <body>
     <header class="text-center py-3">
-        <h1>ユーザー登録 - NNNchatbot</h1>
+        <h1>NNNchatbot - ユーザー登録</h1>
     </header>
     <div id="whole-content" class="d-flex justify-content-center align-items-center" style="height: 80vh;">
         <main class="w-50">
             <form method="POST" action="{{ url_for('register') }}">
                 {{ form.hidden_tag() }}
                 <div class="form-group">
-                    {{ form.username.label(class="form-label") }}
-                    {{ form.username(class="form-control", id="chatbot-text", placeholder="ユーザー名を入力") }}
+                    {{ form.group_code.label(class="form-label") }}
+                    {{ form.group_code(class="form-control", id="chatbot-text5", placeholder="グループコードを入力") }}
+                </div>
+                <div class="form-group">
+                    {{ form.name.label(class="form-label") }}
+                    {{ form.name(class="form-control", id="chatbot-text4", placeholder="名前を入力") }}
+                </div>
+                <div class="form-group">
+                    {{ form.mail.label(class="form-label") }}
+                    {{ form.mail(class="form-control", id="chatbot-text", placeholder="メールアドレスを入力") }}
                 </div>
                 <div class="form-group">
                     {{ form.password.label(class="form-label") }}
