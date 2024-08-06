@@ -5,7 +5,7 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, login_
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, EqualTo
+from wtforms.validators import DataRequired, EqualTo, Optional
 from datetime import datetime, timedelta
 import os
 import random
@@ -111,7 +111,7 @@ class RegistrationForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     name = StringField('Name', validators=[DataRequired()])
-    group_code = StringField('Group Code', validators=[DataRequired()])
+    group_code = StringField('Group Code', validators=[Optional()])
     submit = SubmitField('Register')
 
 # グループログインフォームの定義
@@ -137,7 +137,7 @@ def login():
             login_user(user, remember=True)
             flash('Login Successful!', 'success')
             next_page = request.args.get('next')
-            return redirect(next_page or url_for('index'))
+            return redirect(next_page or url_for('chachat'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', title='Login', form=form)
@@ -150,7 +150,7 @@ def register():
             mail=form.mail.data,
             password=form.password.data,
             name=form.name.data,
-            group_code=form.group_code.data
+            group_code=form.group_code.data if form.group_code.data else ""
         )
         if new_user:
             flash('Registration Successful! Please log in.', 'success')
@@ -187,6 +187,10 @@ def author_register():
         else:
             flash('Email already exists. Please choose a different one.', 'danger')
     return render_template('author_register.html', title='Author Register', form=form)
+
+@app.route('/chachat')
+def chachat():
+    return render_template('chachat.html', title='chachat_main')
 
 @app.route('/logout')
 def logout():
