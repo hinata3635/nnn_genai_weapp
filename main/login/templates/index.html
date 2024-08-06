@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>NNNchatbot</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3">
+        <h1>NNNchatbot</h1>
+    </header>
+    <div id="whole-content" class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+        <main class="text-center">
+            <h2>Welcome to NNNchatbot</h2>
+            <a href="{{ url_for('author_login') }}" class="btn btn-primary mt-3" id="button">企業login</a>
+            <a href="{{ url_for('author_register') }}" class="btn btn-primary mt-3" id="button">企業登録</a>
+            <a href="{{ url_for('register') }}" class="btn btn-primary mt-3" id="button">ユーザ登録</a>
+            <a href="{{ url_for('login') }}" class="btn btn-primary mt-3" id="button">ユーザログイン</a>
+        </main>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
