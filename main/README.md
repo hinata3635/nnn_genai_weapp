@@ -9,3 +9,6 @@
 | tiktoken   | 0.7.0      |
 | chromadb   | 0.4.14     |
 | flask      | 3.0.3      |
+|flask_sqlalchemy | 3.1.1 |
+|flask_login | 0.6.3      |
+|flask_wtf   | 1.2.1      |
