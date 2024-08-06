@@ -8,6 +8,7 @@ from langchain.vectorstores import Chroma
 from langchain.embeddings.openai import OpenAIEmbeddings
 
 path = "https://blog.freelance-jp.org/wp-content/uploads/2023/03/FreelanceSurvey2023.pdf"
+query = "「フリーランスのリモートワークの実態」について教えて。"
 
 pages = split_pdf(path)
 
@@ -23,7 +24,7 @@ embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
 
 chroma_index = Chroma.from_documents(pages, embeddings)
 
-docs = chroma_index.similarity_search("「フリーランスのリモートワークの実態」について教えて。", k=2)
+docs = chroma_index.similarity_search(query, k=2)
 
 for doc in docs:
     print(doc.page_content)
