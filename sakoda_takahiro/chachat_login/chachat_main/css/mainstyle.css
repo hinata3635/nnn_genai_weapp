@@ -15,17 +15,18 @@ h1 {
     text-align: left;
     margin-left: 10px;
 }
-.icon{
+.profileImage{
     position: fixed;
     width: 45px;
-    right: 30px;
+    right: 20px;
     top: 7.5px;
 }
-.icon2{
+.toFileUpload{
         position: fixed;
-        width: 45px;
-        right: 320px;
-        top: 6px;
+        width: 40px;
+        height: 45px;
+        right: 255px;
+        top: 9px;
 }
 #whole content{
     display: flex;
@@ -54,7 +55,7 @@ h1 {
 #newChatButton {
     position: absolute;
     top: 8px;
-    right: 100px;
+    right: 85px;
     padding: 10px 20px;
     font-size: 16px;
     background: #ffffff;
