@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, redirect, url_for, request, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
@@ -13,11 +12,16 @@ import string
 
 from io import BytesIO
 from langchain.document_loaders import PyPDFLoader
-import os
 from werkzeug.utils import secure_filename
 from tempfile import NamedTemporaryFile
+from flask_migrate import Migrate
+
+from flask_wtf import CSRFProtect
+from flask_wtf.file import FileField, FileRequired
 
 app = Flask(__name__)
+csrf = CSRFProtect(app)
+
 app.config['SECRET_KEY'] = os.urandom(24)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=30)
@@ -28,6 +32,12 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 db = SQLAlchemy(app)
+
+# Flask-Migrateの初期化
+migrate = Migrate(app, db)
+
+# CSRF保護を有効にする
+csrf.init_app(app)
 
 def split_pdf(file_path: str) -> list:
     loader = PyPDFLoader(file_path)
@@ -112,13 +122,14 @@ class Chat(db.Model):
     time_stamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     content = db.Column(db.String, nullable=False)
     chat_page_index = db.Column(db.Integer, nullable=False)
+    is_user_message = db.Column(db.Boolean, nullable=False)  # 新しいカラムを追加
 
-    user = db.relationship('User', backref=db.backref('chats', lazy=True))
-
-    def __init__(self, user_unique_id, content, chat_page_index):
+    def __init__(self, user_unique_id, content, chat_page_index, is_user_message):
         self.user_unique_id = user_unique_id
+        self.time_stamp = datetime.utcnow()  # 自動で現在の時刻を設定
         self.content = content
         self.chat_page_index = chat_page_index
+        self.is_user_message = is_user_message  # 新しいカラムを初期化
 
 class Data(db.Model):
     __tablename__ = 'data'
@@ -135,6 +146,11 @@ class Data(db.Model):
         self.file_name = file_name
         self.content = content
         self.data_name = data_name
+
+class FileUploadForm(FlaskForm):
+    file = FileField('File', validators=[FileRequired()])
+    data_name = StringField('Data Name', validators=[DataRequired()])
+    submit = SubmitField('Upload')
 
 # Flask-Login用のユーザーローダー関数
 @login_manager.user_loader
@@ -235,13 +251,16 @@ def author_register():
     return render_template('author_register.html', title='Author Register', form=form)
 
 @app.route('/chachat')
+@login_required
 def chachat():
-    return render_template('chachat.html', title='chachat_main')
+    user_chats = Chat.query.filter_by(user_unique_id=current_user.unique_id).all()
+    return render_template('chachat.html', title='chachat_main', chats=user_chats)
 
-@app.route('/file_upload')
+@app.route('/file_upload', methods=['GET', 'POST'])
 @login_required
 def file_upload():
-    return render_template('file_upload.html', title='File Upload')
+    form = FileUploadForm()
+    return render_template('file_upload.html', title='File Upload', form=form)
 
 @app.route('/upload_file', methods=['POST'])
 @login_required
@@ -292,7 +311,21 @@ def upload_file():
         flash('File successfully uploaded and data saved!', 'success')
         return redirect(url_for('file_upload'))
 
-@app.route('/logout')
+@app.route('/save_chat', methods=['POST'])
+@login_required
+def save_chat():
+    data = request.get_json()
+    new_chat = Chat(
+        user_unique_id=current_user.unique_id,
+        content=data['content'],
+        chat_page_index=0,
+        is_user_message=True  # 自分（User）から送ったメッセージであることを識別
+    )
+    db.session.add(new_chat)
+    db.session.commit()
+    return {'status': 'success'}, 200
+
+@app.route('/logout', methods=['GET', 'POST'])
 def logout():
     logout_user()
     return redirect(url_for('login'))
