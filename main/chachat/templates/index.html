@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <title>NNNchatbot</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
 </head>
+
 <body>
     <header class="text-center py-3">
         <h1>NNNchatbot</h1>
+        <p>Welcome, {{ current_user.name }}!</p>
     </header>
     <div id="whole-content" class="d-flex justify-content-center align-items-center" style="height: 80vh;">
         <main class="text-center">
@@ -24,4 +27,5 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>

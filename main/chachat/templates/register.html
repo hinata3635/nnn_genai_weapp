@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <title>NNNchatbot - ユーザー登録</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
 </head>
+
 <body>
     <header class="text-center py-3">
         <h1>NNNchatbot - ユーザー登録</h1>
+        <p>Welcome, {{ current_user.name }}!</p>
     </header>
     <div id="whole-content" class="d-flex justify-content-center align-items-center" style="height: 80vh;">
         <main class="w-50">
@@ -39,18 +42,18 @@
                 </div>
             </form>
             {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    <div class="alert alert-dismissible fade show mt-3">
-                        {% for category, message in messages %}
-                            <div class="alert alert-{{ category }}">
-                                {{ message }}
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+            {% if messages %}
+            <div class="alert alert-dismissible fade show mt-3">
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
             {% endwith %}
         </main>
     </div>
@@ -59,4 +62,5 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>

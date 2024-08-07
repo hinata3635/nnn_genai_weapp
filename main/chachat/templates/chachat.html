@@ -13,6 +13,7 @@
 <body>
   <header>
     <h1>NNNchatbot</h1>
+    <p>Welcome, {{ current_user.name }}!</p>
   </header>
   <div id="whole content">
     <main>
@@ -37,6 +38,11 @@
           </div>
         </form>
       </div>
+      <!-- Add this inside the <main> element, before the closing </main> tag -->
+      <form action="{{ url_for('logout') }}" method="post" style="display:inline;">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button type="submit">Logout</button>
+      </form>
     </main>
     <aside>
       <div class="chat-list" id="chatList">
