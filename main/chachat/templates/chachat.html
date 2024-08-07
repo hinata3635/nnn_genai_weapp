@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>NNNchatbot</title>
+  <link href="{{ url_for('static', filename='css/chachat.css') }}" rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <h1>NNNchatbot</h1>
+    <h2><img src="../../image/5D8s-GsHJlJ.png" class="icon"></h2>
+    <h3><img src="../../image/13820.png" class="icon2"></h3>
+  </header>
+  <div id="whole content">
+    <main>
+      <div id="chatbot">
+        <div id="chatbot-body">
+          <ul id="chatbot-ul"></ul>
+        </div>
+        <!--入力場所，送信ボタン-->
+        <form onsubmit="return false">
+          <div id="chatbot-footer">
+            <input type="text" id="chatbot-text" class="browser-default" placeholder="テキストを入力">
+            <input type="submit" value="送信" id="chatbot-submit">
+          </div>
+        </form>
+      </div>
+    </main>
+    <aside>
+      <div class="chat-list" id="chatList">
+        <!-- チャットリストがここに表示されます -->
+      </div>
+      <button id="newChatButton">新しいチャット</button>
+    </aside>
+  </div>
+  <script src="script.js"></script>
+</body>
