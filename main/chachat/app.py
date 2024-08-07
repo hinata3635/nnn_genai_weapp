@@ -152,13 +152,18 @@ class FileUploadForm(FlaskForm):
     data_name = StringField('Data Name', validators=[DataRequired()])
     submit = SubmitField('Upload')
 
+class LogoutForm(FlaskForm):
+    pass
+
 # Flask-Login用のユーザーローダー関数
 @login_manager.user_loader
 def load_user(user_id):
-    user = User.query.get(int(user_id))
-    if user is None:
-        user = Group.query.get(int(user_id))
-    return user
+    user_type = session.get('user_type')
+    if user_type == 'user':
+        return User.query.get(int(user_id))
+    elif user_type == 'group':
+        return Group.query.get(int(user_id))
+    return None
 
 # ログインフォームの定義
 class LoginForm(FlaskForm):
@@ -196,6 +201,7 @@ def login():
         user = User.query.filter_by(mail=form.mail.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=True)
+            session['user_type'] = 'user'
             flash('Login Successful!', 'success')
             next_page = request.args.get('next')
             return redirect(next_page or url_for('chachat'))
@@ -228,11 +234,18 @@ def author_login():
         if group and group.check_password(form.password.data):
             logout_user()  # 既存のUserログイン情報をクリア
             login_user(group, remember=True)
+            session['user_type'] = 'group'
             flash('Login Successful!', 'success')
-            return redirect(url_for('file_upload'))  # file_upload.html にリダイレクト
+            return redirect(url_for('author_page'))  # author_page にリダイレクト
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('author_login.html', title='Author Login', form=form)
+
+@app.route('/author_page')
+@login_required
+def author_page():
+    form = LogoutForm()
+    return render_template('author_page.html', title='Author Page', form=form)
 
 @app.route('/author_register', methods=['GET', 'POST'])
 def author_register():
@@ -300,6 +313,64 @@ def upload_file():
             flash('Unknown user type', 'danger')
             return redirect(url_for('file_upload'))
 
+        # 重複データのチェック
+        existing_data = Data.query.filter_by(
+            group_unique_id=unique_id,
+            file_name=filename,
+            content=content,
+            data_name=data_name
+        ).first()
+
+        if existing_data:
+            flash('そのファイルはすでに登録されています', 'danger')
+            return redirect(url_for('file_upload'))
+
+        new_data = Data(
+            group_unique_id=unique_id,
+            file_name=filename,
+            content=content,
+            data_name=data_name
+        )
+        db.session.add(new_data)
+        db.session.commit()
+        flash('File successfully uploaded and data saved!', 'success')
+        return redirect(url_for('file_upload'))
+
+    if 'file' not in request.files:
+        flash('No file part', 'danger')
+        return redirect(request.url)
+
+    file = request.files['file']
+    if file.filename == '':
+        flash('No selected file', 'danger')
+        return redirect(request.url)
+
+    if file:
+        filename = secure_filename(file.filename)
+
+        # 一時ファイルに保存
+        with NamedTemporaryFile(delete=False) as temp_file:
+            temp_file.write(file.read())
+            temp_file_path = temp_file.name
+
+        # ファイル内容をテキストに変換
+        pages = split_pdf(temp_file_path)
+        content = "\n".join([page.page_content for page in pages])
+
+        # 一時ファイルを削除
+        os.remove(temp_file_path)
+
+        data_name = request.form['data_name']
+
+        # current_user のクラスに応じて unique_id または unique_code を使用
+        if isinstance(current_user, User):
+            unique_id = current_user.unique_id
+        elif isinstance(current_user, Group):
+            unique_id = current_user.unique_code
+        else:
+            flash('Unknown user type', 'danger')
+            return redirect(url_for('file_upload'))
+
         new_data = Data(
             group_unique_id=unique_id,
             file_name=filename,
@@ -327,8 +398,12 @@ def save_chat():
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
-    logout_user()
-    return redirect(url_for('login'))
+    if isinstance(current_user, Group):
+        logout_user()
+        return redirect(url_for('author_login'))
+    else:
+        logout_user()
+        return redirect(url_for('login'))
 
 @app.route('/')
 def index():
