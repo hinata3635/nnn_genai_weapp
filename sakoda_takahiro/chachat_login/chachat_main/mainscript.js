@@ -451,3 +451,8 @@ function initializeChat() {
 }
 
 
+//ファイル画像をクリックするとページが遷移
+	document.getElementById('toFileUpload').addEventListener('click', function() {
+		window.location.href = 'chachat_fileupload.html';
+	});
+

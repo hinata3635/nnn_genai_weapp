@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>NNNchatbot</title>
-    <link href= "css/style.css" rel= "stylesheet">
+    <link href="css/fileupload_style.css" rel="stylesheet">
 </head>
 <body>
     <header>
         <h1>NNNchatbot</h1>
+        <h2><img src="image/1564296.png" class="profileImage"></h2>
     </header>
     <div id="wholeContent">
         <main>
             <div id="dropZone" class="dropZone">
                 <p>ここにファイルをドラッグ＆ドロップ</p>
+                <div id="fileList"></div>
             </div>
-            <input type="file" id="fileUpload">
+            <input type="file" id="fileUpload" multiple>
             <button id="uploadButton">ファイルをアップロード</button>
-
         </main>
     </div>
-    <script src="script.js"></script>
+    <script src="fileupload_script.js"></script>
 </body>
+</html>
