@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>NNNchatbot</title>
+    <link href="{{ url_for('static', filename='css/file_upload.css') }}" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1>NNNchatbot</h1>
+    </header>
+    <div id="wholeContent">
+        <form id="uploadForm" method="POST" enctype="multipart/form-data" action="{{ url_for('upload_file') }}">
+            <div id="dropZone" class="dropZone">
+                <p>ここにファイルをドラッグ＆ドロップ</p>
+            </div>
+            <input type="file" id="fileUpload" name="file">
+            <input type="text" id="dataName" name="data_name" placeholder="データ名を入力してください">
+            <button type="submit" id="uploadButton">ファイルをアップロード</button>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
