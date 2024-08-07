@@ -11,6 +11,12 @@ import os
 import random
 import string
 
+from io import BytesIO
+from langchain.document_loaders import PyPDFLoader
+import os
+from werkzeug.utils import secure_filename
+from tempfile import NamedTemporaryFile
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
@@ -22,6 +28,11 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 db = SQLAlchemy(app)
+
+def split_pdf(file_path: str) -> list:
+    loader = PyPDFLoader(file_path)
+    pages = loader.load_and_split()
+    return pages
 
 # Userモデルの定義 (UserMixinを継承)
 class User(UserMixin, db.Model):
@@ -94,10 +105,44 @@ class Group(UserMixin, db.Model):
             if not cls.query.filter_by(unique_code=unique_code).first():
                 return unique_code
 
+class Chat(db.Model):
+    __tablename__ = 'chats'
+    id = db.Column(db.Integer, primary_key=True)
+    user_unique_id = db.Column(db.String(10), db.ForeignKey('users.unique_id'), nullable=False)
+    time_stamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    content = db.Column(db.String, nullable=False)
+    chat_page_index = db.Column(db.Integer, nullable=False)
+
+    user = db.relationship('User', backref=db.backref('chats', lazy=True))
+
+    def __init__(self, user_unique_id, content, chat_page_index):
+        self.user_unique_id = user_unique_id
+        self.content = content
+        self.chat_page_index = chat_page_index
+
+class Data(db.Model):
+    __tablename__ = 'data'
+    id = db.Column(db.Integer, primary_key=True)
+    group_unique_id = db.Column(db.String(8), db.ForeignKey('groups.unique_code'), nullable=False)
+    file_name = db.Column(db.String(256), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    data_name = db.Column(db.String(64), nullable=False)
+
+    group = db.relationship('Group', backref=db.backref('data', lazy=True))
+
+    def __init__(self, group_unique_id, file_name, content, data_name):
+        self.group_unique_id = group_unique_id
+        self.file_name = file_name
+        self.content = content
+        self.data_name = data_name
+
 # Flask-Login用のユーザーローダー関数
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    user = User.query.get(int(user_id))
+    if user is None:
+        user = Group.query.get(int(user_id))
+    return user
 
 # ログインフォームの定義
 class LoginForm(FlaskForm):
@@ -165,9 +210,10 @@ def author_login():
     if form.validate_on_submit():
         group = Group.query.filter_by(mail=form.mail.data).first()
         if group and group.check_password(form.password.data):
+            logout_user()  # 既存のUserログイン情報をクリア
             login_user(group, remember=True)
             flash('Login Successful!', 'success')
-            return redirect(url_for('login'))  # login.html にリダイレクト
+            return redirect(url_for('file_upload'))  # file_upload.html にリダイレクト
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('author_login.html', title='Author Login', form=form)
@@ -191,6 +237,60 @@ def author_register():
 @app.route('/chachat')
 def chachat():
     return render_template('chachat.html', title='chachat_main')
+
+@app.route('/file_upload')
+@login_required
+def file_upload():
+    return render_template('file_upload.html', title='File Upload')
+
+@app.route('/upload_file', methods=['POST'])
+@login_required
+def upload_file():
+    if 'file' not in request.files:
+        flash('No file part', 'danger')
+        return redirect(request.url)
+
+    file = request.files['file']
+    if file.filename == '':
+        flash('No selected file', 'danger')
+        return redirect(request.url)
+
+    if file:
+        filename = secure_filename(file.filename)
+
+        # 一時ファイルに保存
+        with NamedTemporaryFile(delete=False) as temp_file:
+            temp_file.write(file.read())
+            temp_file_path = temp_file.name
+
+        # ファイル内容をテキストに変換
+        pages = split_pdf(temp_file_path)
+        content = "\n".join([page.page_content for page in pages])
+
+        # 一時ファイルを削除
+        os.remove(temp_file_path)
+
+        data_name = request.form['data_name']
+
+        # current_user のクラスに応じて unique_id または unique_code を使用
+        if isinstance(current_user, User):
+            unique_id = current_user.unique_id
+        elif isinstance(current_user, Group):
+            unique_id = current_user.unique_code
+        else:
+            flash('Unknown user type', 'danger')
+            return redirect(url_for('file_upload'))
+
+        new_data = Data(
+            group_unique_id=unique_id,
+            file_name=filename,
+            content=content,
+            data_name=data_name
+        )
+        db.session.add(new_data)
+        db.session.commit()
+        flash('File successfully uploaded and data saved!', 'success')
+        return redirect(url_for('file_upload'))
 
 @app.route('/logout')
 def logout():
