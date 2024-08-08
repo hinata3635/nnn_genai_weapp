@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>NNNchatbot</title>
+  <link href="chachat.css" rel="stylesheet">
+  <script>
+    const csrfToken = "{{ csrf_token() }}";
+  </script>
+</head>
+
+<body>
+   <hr>
+  <div id="whole-content">
+    <aside id="leftSidebar">
+    </aside>
+    <aside id="rightSidebar">
+        <img src="1564296.png" class="profileImage" >
+        <div class="chat-list" id="chatList">
+          <!-- チャットリストがここに表示されます -->
+        </div>
+        <button id="newChatButton">新しいチャット</button>
+      </aside>
+    <main>
+      <div id="chatbot">
+        <div id="chatbot-body">
+          <ul id="chatbot-ul">
+            {% for chat in chats %}
+            <li class="{{ 'right' if chat.is_user_message else 'left' }}">
+              <div class="chatbot-{{ 'right' if chat.is_user_message else 'left' }}">
+                {{ chat.content }}
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <!--入力場所，送信ボタン-->
+        <form onsubmit="return false">
+          <div id="chatbot-footer">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="text" id="chatbot-text" class="browser-default" placeholder="テキストを入力">
+            <input type="submit" value="送信" id="chatbot-submit">
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+  <script src="chachat.js"></script>
+</body>
+
+</html>
