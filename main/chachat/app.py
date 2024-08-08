@@ -19,6 +19,13 @@ from flask_migrate import Migrate
 from flask_wtf import CSRFProtect
 from flask_wtf.file import FileField, FileRequired
 
+from dotenv import load_dotenv
+from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.text_splitter import CharacterTextSplitter
+from langchain.vectorstores import Chroma
+from langchain.indexes import VectorstoreIndexCreator
+from langchain.document_loaders import TextLoader
+
 app = Flask(__name__)
 csrf = CSRFProtect(app)
 
@@ -43,6 +50,75 @@ def split_pdf(file_path: str) -> list:
     loader = PyPDFLoader(file_path)
     pages = loader.load_and_split()
     return pages
+
+def create_answer(user_query, content):
+    # .envファイルを読み込む
+    load_dotenv()
+
+    # APIキーの登録が必要
+    os.environ["OPENAI_API_KEY"] = os.environ.get("OPENAI_API_KEY")
+    openai_api_key = os.environ.get("OPENAI_API_KEY")
+
+    # テキストを一時ファイルに保存
+    with NamedTemporaryFile(delete=False, mode='w', encoding='utf-8') as temp_file:
+        temp_file.write(content)
+        temp_file_path = temp_file.name
+
+    loader = TextLoader(temp_file_path)
+
+    text_splitter = CharacterTextSplitter(
+        separator="\n",
+        chunk_size=100,
+        chunk_overlap=0,
+        length_function=len,
+    )
+
+    index = VectorstoreIndexCreator(
+        vectorstore_cls=Chroma,
+        embedding=OpenAIEmbeddings(),
+        text_splitter=text_splitter,
+    ).from_loaders([loader])
+
+    answer = index.query(user_query)
+
+    # 一時ファイルを削除
+    os.remove(temp_file_path)
+
+    return answer
+
+def generate_answer(data_content, query):
+    # LangChainのロジックをここに移植
+    # .envファイルを読み込む
+    load_dotenv()
+
+    # APIキーの登録が必要
+    os.environ["OPENAI_API_KEY"] = os.environ.get("OPENAI_API_KEY")
+    openai_api_key = os.environ.get("OPENAI_API_KEY")
+
+    # 一時ファイルとしてdata_contentを保存
+    with NamedTemporaryFile(delete=False, suffix=".txt") as temp_file:
+        temp_file.write(data_content.encode('utf-8'))
+        temp_file_path = temp_file.name
+
+    loader = TextLoader(temp_file_path)
+    text_splitter = CharacterTextSplitter(
+        separator="\n",
+        chunk_size=100,
+        chunk_overlap=0,
+        length_function=len,
+    )
+    index = VectorstoreIndexCreator(
+        vectorstore_cls=Chroma,
+        embedding=OpenAIEmbeddings(),
+        text_splitter=text_splitter,
+    ).from_loaders([loader])
+
+    answer = index.query(query)
+
+    # 一時ファイルを削除
+    os.remove(temp_file_path)
+
+    return answer
 
 # Userモデルの定義 (UserMixinを継承)
 class User(UserMixin, db.Model):
@@ -386,15 +462,48 @@ def upload_file():
 @login_required
 def save_chat():
     data = request.get_json()
-    new_chat = Chat(
+    received_message = data['content']
+    is_user_message = data['is_user_message']
+
+    # ユーザーのチャットを保存
+    user_chat = Chat(
         user_unique_id=current_user.unique_id,
-        content=data['content'],
+        content=received_message,
         chat_page_index=0,
-        is_user_message=True  # 自分（User）から送ったメッセージであることを識別
+        is_user_message=is_user_message
     )
-    db.session.add(new_chat)
+    db.session.add(user_chat)
     db.session.commit()
-    return {'status': 'success'}, 200
+
+    # データベースから回答を生成するためのデータを取得
+    group_code = current_user.group_code
+    group = Group.query.filter_by(id=group_code).first()
+    data_entry = Data.query.filter_by(group_unique_id=group.unique_code).first()
+
+    if data_entry:
+        data_content = data_entry.content
+        print(f"Found data content: {data_entry}")
+        try:
+            answer = generate_answer(data_content, received_message)
+            print(f"Generated answer: {answer}")
+
+            # 生成された回答を保存
+            bot_chat = Chat(
+                user_unique_id=current_user.unique_id,
+                content=answer,
+                chat_page_index=0,
+                is_user_message=False
+            )
+            db.session.add(bot_chat)
+            db.session.commit()
+
+            return {'status': 'success', 'answer': answer}, 200
+        except Exception as e:
+            print(f"Error during chat saving or answering: {e}")
+            return {'status': 'error', 'message': str(e)}, 500
+    else:
+        print("No data content found for the group")
+        return {'status': 'error', 'message': 'No data content found'}, 404
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
