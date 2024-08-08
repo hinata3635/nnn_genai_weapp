@@ -1,5 +1,3 @@
-'use strict';
-
 // ユーザーの発言，回答内容を記憶する配列
 let userData = [];
 
@@ -67,6 +65,10 @@ chatSubmitBtn.addEventListener('click', () => {
 		.then(data => {
 			if (data.status === 'success') {
 				console.log('チャットが保存されました');
+				if (data.answer) {
+					// サーバーからの返答を表示
+					robotOutput(data.answer);
+				}
 			} else {
 				console.error('チャットの保存に失敗しました');
 			}
@@ -76,9 +78,6 @@ chatSubmitBtn.addEventListener('click', () => {
 
 	// 一番下までスクロール
 	chatToBottom();
-
-	// ロボットの返信
-	robotOutput(userText.value);
 
 	// テキスト入力欄を空白にする
 	userText.value = '';
